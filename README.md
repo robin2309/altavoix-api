@@ -10,4 +10,4 @@
 
 ## Execute scripts
 
-    node main.js
+    node app/server.js
