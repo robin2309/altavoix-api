@@ -2,8 +2,8 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { parse } from 'csv-parse/sync';
 
-import { normalizeName } from '@shared/strings';
-import { parseVotes } from '@models/depute';
+import { normalizeName } from '#shared/strings.js';
+import { parseVotes } from '#models/depute.js';
 
 const searchDeputes = async searchQuery => {
   // Read CSV file

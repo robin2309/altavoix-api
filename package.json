@@ -13,8 +13,8 @@
     "express": "^4.21.1"
   },
   "type": "module",
-  "exports": {
-    "./@shared/*": "./shared/*",
-    "./@models/*": "./app/models/*"
+  "imports": {
+    "#shared/*": "./shared/*",
+    "#models/*": "./app/models/*"
   }
 }
