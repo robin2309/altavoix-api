@@ -26,7 +26,7 @@ const searchDeputes = async searchQuery => {
 const getDeputeFromName = async (firstname, lastname) => {
   try {
     if (!firstname || !lastname) {
-      throw new Error({code: 400, body: 'Firstname and lastname parameters are required'});
+      throw new Error('Firstname and lastname parameters are required');
     }
 
     // Normalize the name for file lookup
@@ -43,10 +43,10 @@ const getDeputeFromName = async (firstname, lastname) => {
     };
   } catch (error) {
     if (error.code === 'ENOENT') {
-      throw new Error({code: 404, body: 'Depute not found'});
+      throw new Error('Depute not found');
     }
 
-    throw new Error({code: 500, body: 'Internal server error'});
+    throw new Error('Internal server error');
   }
 }
 

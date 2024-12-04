@@ -2,8 +2,8 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
 
-import { POUR, CONTRE, ABSTENTION, ABSENT, parseVotes } from '../models/depute.js';
-import { normalizeName } from '../shared/strings.js';
+import { POUR, CONTRE, ABSTENTION, ABSENT, parseVotes } from '#models/depute.js';
+import { normalizeName } from '#shared/strings.js';
 
 // Replicate __dirname
 const __filename = fileURLToPath(import.meta.url);

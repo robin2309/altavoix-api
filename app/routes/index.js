@@ -13,8 +13,7 @@ const addRoutes = app => {
       const depute = await getDeputeFromName(firstname, lastname);
       res.json(depute);
     } catch (error) {
-      const {code, body} = error.message;
-      res.status(code).json({ message: body });
+      res.status(400).json({ message: error.message });
     }
   });
 }

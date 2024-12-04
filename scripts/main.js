@@ -11,7 +11,7 @@ import { mountDeputeData, writeDeputeFiles } from './depute.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const filePath = '../resources/liste_deputes.csv';
+const filePath = 'resources/liste_deputes.csv';
 
 const ZIP_NAME = 'Scrutins.json.zip';
 const DATA_FOLDER = 'data';
