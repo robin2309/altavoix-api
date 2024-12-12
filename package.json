@@ -4,7 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app/server.js"
+    "start": "node app/server.js",
+    "clean": "rm -r scripts/data && rm -r scripts/extracted && rm -r output",
+    "fetch-data": "node scripts/main.js",
+    "generate-data": "npm run clean && npm run fetch-data"
   },
   "author": "",
   "license": "ISC",
