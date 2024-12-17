@@ -7,7 +7,8 @@
     "start": "node app/server.js",
     "clean": "rm -rf scripts/data && rm -rf scripts/extracted && rm -rf output",
     "fetch-data": "node scripts/main.js",
-    "generate-data": "npm run clean && npm run fetch-data"
+    "generate-data": "npm run clean && npm run fetch-data",
+    "heroku-postbuild": "npm run generate-data"
   },
   "author": "",
   "license": "ISC",
