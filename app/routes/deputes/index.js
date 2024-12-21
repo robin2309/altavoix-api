@@ -2,7 +2,6 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { parse } from 'csv-parse/sync';
 
-import { normalizeName } from '#shared/strings.js';
 import { parseVotes } from '#models/depute.js';
 
 const searchDeputes = async searchQuery => {
@@ -23,14 +22,14 @@ const searchDeputes = async searchQuery => {
   ).slice(0, 10); // Limit to 10 suggestions
 }
 
-const getDeputeFromName = async (firstname, lastname) => {
+const getDeputeFromName = async (name) => {
   try {
     if (!firstname || !lastname) {
       throw new Error('Firstname and lastname parameters are required');
     }
 
     // Normalize the name for file lookup
-    const normalizedName = `${normalizeName(firstname)}_${normalizeName(lastname)}.json`;
+    const normalizedName = `${name}.json`;
     const filePath = path.join(process.cwd(), 'output', normalizedName);
 
     // Read the JSON file

@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
+import slugify from 'slugify';
 
 import { POUR, CONTRE, ABSTENTION, ABSENT, parseVotes } from '#models/depute.js';
 import { normalizeName } from '#shared/strings.js';
@@ -72,7 +73,8 @@ const writeDeputeFiles = deputeData => new Promise((resolve, reject) => {
 
   const writePromises = deputeData.map(depute => {
     return new Promise((resolveWrite, rejectWrite) => {
-      const fileName = `${normalizeName(depute.firstName)}_${normalizeName(depute.lastName)}.json`;
+      const slugifiedName = slugify(`${depute.firstName} ${depute.lastName}`, {lower: true});
+      const fileName = `${slugifiedName}.json`;
       const filePath = path.join(outputDir, fileName);
       
       // Write the JSON object to the file
