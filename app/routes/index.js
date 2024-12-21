@@ -9,8 +9,8 @@ const addRoutes = app => {
   
   app.get('/api/depute', async (req, res) => {
     try {
-      const { firstname, lastname } = req.query;
-      const depute = await getDeputeFromName(firstname, lastname);
+      const { name } = req.query;
+      const depute = await getDeputeFromName(name);
       res.json(depute);
     } catch (error) {
       res.status(400).json({ message: error.message });

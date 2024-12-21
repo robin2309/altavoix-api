@@ -24,8 +24,8 @@ const searchDeputes = async searchQuery => {
 
 const getDeputeFromName = async (name) => {
   try {
-    if (!firstname || !lastname) {
-      throw new Error('Firstname and lastname parameters are required');
+    if (!name) {
+      throw new Error('Name parameter is required');
     }
 
     // Normalize the name for file lookup
@@ -41,10 +41,10 @@ const getDeputeFromName = async (name) => {
       votes: parseVotes(data.votes),
     };
   } catch (error) {
+    console.log(error);
     if (error.code === 'ENOENT') {
       throw new Error('Depute not found');
     }
-
     throw new Error('Internal server error');
   }
 }
