@@ -27,18 +27,19 @@ CREATE TABLE bills (
 );
 
 CREATE TABLE polls (
-    id SERIAL PRIMARY KEY,
-    bill_id INT NOT NULL,
-    FOREIGN KEY (bill_id) REFERENCES bills(id) ON DELETE CASCADE,
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    bill_id INT,
+    FOREIGN KEY (bill_id) REFERENCES bills(id),
     voted_at DATE
 );
 
 CREATE TABLE votes (
     id SERIAL PRIMARY KEY,
-    deputy_id INT NOT NULL,
-    poll_id INT NOT NULL,
+    deputy_id TEXT NOT NULL,
+    poll_id TEXT NOT NULL,
     standing VARCHAR(20) CHECK (standing IN ('in favor', 'against', 'abstention', 'absent')),
-    FOREIGN KEY (deputy_id) REFERENCES deputies(id) ON DELETE CASCADE,
-    FOREIGN KEY (poll_id) REFERENCES polls(id) ON DELETE CASCADE,
+    FOREIGN KEY (deputy_id) REFERENCES deputies(id),
+    FOREIGN KEY (poll_id) REFERENCES polls(id),
     UNIQUE(deputy_id, poll_id)
 );

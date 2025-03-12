@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import slugify from 'slugify';
 
-import { POUR, CONTRE, ABSTENTION, ABSENT, parseVotes } from '#models/depute.js';
+import { IN_FAVOR, AGAINST, ABSTENTION, ABSENT, parseVotes, normalizeId } from '#models/deputy.js';
 import { normalizeName } from '#shared/strings.js';
 
 // Replicate __dirname
@@ -28,7 +28,7 @@ const __dirname = path.dirname(__filename);
 
 const isInVoters = (votes, id) => {
   if (!votes) return false;
-  const normalizedId = `PA${id}`;
+  const normalizedId = normalizeId(id);
   if (!!(votes?.votant?.acteurRef)) {
     return normalizedId === votes.votant.acteurRef;
   }
@@ -41,8 +41,8 @@ const getStanding = (votes, id) => {
   const {groupe: groups} = votes.organe.groupes;
   for (let group of groups) {
     const {pours, contres, abstentions} = group.vote.decompteNominatif;
-    if (isInVoters(pours, id)) return POUR;
-    if (isInVoters(contres, id)) return CONTRE;
+    if (isInVoters(pours, id)) return IN_FAVOR;
+    if (isInVoters(contres, id)) return AGAINST;
     if (isInVoters(abstentions, id)) return ABSTENTION;
   }
   return ABSENT;
@@ -101,4 +101,4 @@ const writeDeputeFiles = deputeData => new Promise((resolve, reject) => {
   
 });
 
-export { mountDeputeData, writeDeputeFiles };
+export { mountDeputeData, writeDeputeFiles, getStanding };

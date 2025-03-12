@@ -4,6 +4,7 @@ import db from '#config/db.js';
 TODO:
 email
 website to assemblee nationale
+slug
 */
 
 const insertDeputies = async (deputies) => {
@@ -29,11 +30,22 @@ const insertDeputies = async (deputies) => {
     // Execute the query
     await db.none(query);
 
-    console.log('✅ Deputies inserted successfully!');
+    console.log('✅ Deputies inserted successfully!')
   } catch (error) {
-    console.error('❌ Error inserting deputies:', error);
-    throw error;
+    console.error('❌ Error inserting deputies:', error)
+    throw error
   }
 };
 
-export { insertDeputies }
+const getAllDeputyIds = async () => {
+  try {
+    const deputies = await db.any('SELECT id FROM deputies');
+    return deputies
+  } 
+  catch(e) {
+      console.error('Error fetch deputy ids', e)
+      throw e
+  }
+}
+
+export { insertDeputies, getAllDeputyIds }

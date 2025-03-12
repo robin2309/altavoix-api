@@ -5,7 +5,11 @@ import https from 'https';
 import { fileURLToPath } from 'url';
 import unzipper from 'unzipper';
 
-import { mountDeputeData, writeDeputeFiles } from './depute.js';
+import { getAllDeputyIds } from '#repositories/deputy.js'
+import { createPoll } from '#repositories/poll.js'
+import { insertVotes } from '#repositories/vote.js'
+
+import { mountDeputeData, writeDeputeFiles, getStanding } from './deputy.js';
 
 // Replicate __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -161,15 +165,43 @@ const mountData = parsedScrutinData => new Promise((resolve, reject) => {
   }
 });
 
-downloadAndWrite()
-  .then(unzipScrutins)
-  .then(parseScrutins)
+const createPolls = async (parsedScrutins) => {
+  // console.log(parsedScrutins)
+  const deputyIds = await getAllDeputyIds()
+
+  for (const scrutin of parsedScrutins) {
+    const {scrutin: scrutinData} = scrutin
+    // console.log(scrutin)
+    const poll = {
+      id: scrutinData.uid,
+      title: scrutinData.titre,
+      votedAt: scrutinData.dateScrutin
+    }
+    const pollId = await createPoll(poll)
+    // const pollId = poll.id
+    const votes = deputyIds.map(({id: deputyId}) => {
+      return {
+        deputyId,
+        pollId,
+        standing: getStanding(scrutinData.ventilationVotes, deputyId)
+      }
+    })
+    await insertVotes(votes)
+    console.log(`Inserted votes for ${pollId}`)
+  }
+}
+
+// downloadAndWrite()
+//   .then(unzipScrutins)
+//   .then(
+parseScrutins()
   .then(parsedScrutinData => {
-    return mountData(parsedScrutinData);
+    createPolls(parsedScrutinData)
+    // return mountData(parsedScrutinData);
   })
-  .then(deputeData => {
-    writeDeputeFiles(deputeData);
-  })
-  .catch(() => {
-    console.log('ERROR');
-  });
+  // .then(deputeData => {
+  //   writeDeputeFiles(deputeData);
+  // })
+  // .catch(() => {
+  //   console.log('ERROR');
+  // });

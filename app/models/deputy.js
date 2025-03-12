@@ -1,5 +1,5 @@
-const POUR = 'pour';
-const CONTRE = 'contre';
+const IN_FAVOR = 'in favor';
+const AGAINST = 'against';
 const ABSTENTION = 'abstention';
 const ABSENT = 'absent';
 
@@ -8,8 +8,8 @@ const parseVotes = votes => {
         acc[vote.standing] = (acc[vote.standing] || 0) + 1;
         return acc;
     }, {
-        [POUR]: 0,
-        [CONTRE]: 0,
+        [IN_FAVOR]: 0,
+        [AGAINST]: 0,
         [ABSTENTION]: 0,
         [ABSENT]: 0,
     });
@@ -17,4 +17,6 @@ const parseVotes = votes => {
 
 const getPictureUrl = id => `https://www.assemblee-nationale.fr/dyn/static/tribun/17/photos/carre/${id}.jpg`
 
-export { POUR, CONTRE, ABSTENTION, ABSENT, parseVotes, getPictureUrl };
+const normalizeId = id => `PA${id}`
+
+export { IN_FAVOR, AGAINST, ABSTENTION, ABSENT, parseVotes, getPictureUrl, normalizeId };
