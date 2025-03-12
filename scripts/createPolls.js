@@ -9,7 +9,7 @@ import { getAllDeputyIds } from '#repositories/deputy.js'
 import { createPoll } from '#repositories/poll.js'
 import { insertVotes } from '#repositories/vote.js'
 
-import { mountDeputeData, writeDeputeFiles, getStanding } from './deputy.js';
+import { getStanding } from './deputy.js';
 
 // Replicate __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -142,29 +142,6 @@ const parseScrutins = () => new Promise((resolve, reject) => {
   });
 });
 
-const mountData = parsedScrutinData => new Promise((resolve, reject) => {
-  const deputeData = [];
-  try {
-    // Open and process the CSV file
-    fs.createReadStream(filePath)
-      .pipe(csv()) // Automatically treats the first line as the header
-      .on('data', (row) => {
-        deputeData.push(mountDeputeData(row, parsedScrutinData));
-      })
-      .on('end', () => {
-        console.log('CSV file successfully processed.');
-        resolve(deputeData);
-      })
-      .on('error', (err) => {
-        console.error('Error reading the file:', err.message);
-        reject();
-      });
-  } catch (err) {
-    console.error('Error reading the file:', err.message);
-    reject();
-  }
-});
-
 const createPolls = async (parsedScrutins) => {
   // console.log(parsedScrutins)
   const deputyIds = await getAllDeputyIds()
@@ -199,9 +176,4 @@ parseScrutins()
     createPolls(parsedScrutinData)
     // return mountData(parsedScrutinData);
   })
-  // .then(deputeData => {
-  //   writeDeputeFiles(deputeData);
-  // })
-  // .catch(() => {
-  //   console.log('ERROR');
-  // });
+
